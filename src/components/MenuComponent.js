@@ -1,6 +1,7 @@
 import React from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import {Link} from 'react-router-dom';
+import DishDetail from './DishDetailComponent';
     
 function RenderMenuItem({dish, onClick}) {
     return(
@@ -19,7 +20,7 @@ const Menu = (props) => {
     const menu = props.dishes.map((dish) => {
         return(
             <div key={dish.id} className="col-12 col-md-5 m-1">
-                <RenderMenuItem dish={dish} />
+                <RenderMenuItem dish={dish} onClick={<DishDetail dishId={dish.dishId}/>} />
             </div>
         );
     });
