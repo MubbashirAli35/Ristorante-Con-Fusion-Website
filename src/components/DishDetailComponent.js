@@ -30,8 +30,9 @@ class ComponentForm extends Component {
     }
 
     handleSubmit(values) {
+        const date = new Date().toISOString();
         this.toggleModal();
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment, date);
         alert(JSON.stringify(values));
     }
 
@@ -126,7 +127,7 @@ function RenderDishDetail({dish}) {
     } 
 }
 
-function RenderComments({comments, addComment, dishId}) {
+function RenderComments({comments, postComment, dishId}) {
     const comment = comments.map(comment => {
         return(
             <li key={comment.id}>
@@ -143,7 +144,7 @@ function RenderComments({comments, addComment, dishId}) {
             <ul className="list-unstyled">
                 {comment}
             </ul>
-            <ComponentForm dishId={dishId} addComment={addComment} />
+            <ComponentForm dishId={dishId} postComment={postComment} />
         </div>
     );
 
@@ -186,7 +187,7 @@ const DishDetail = (props) => {
                         <RenderDishDetail dish={props.dish} />
                     </div>
                     <RenderComments comments={props.comments} 
-                     addComment={props.addComment}
+                     postComment={props.postComment}
                      dishId={props.dish.id} />
                 </div>
             </div>

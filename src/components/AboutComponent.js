@@ -11,7 +11,7 @@ function RenderLeader({leaders}) {
                 </Media>
                 <Media body style={{marginLeft: 50 + 'px'}}>
                     <Media heading>
-                    <h4>{leader.name}</h4>
+        {/*<h4>{leader.name}</h4>*/}
                     </Media>
                     <p>{leader.designation}</p>
                     <p>{leader.description}</p>
