@@ -31,10 +31,8 @@ class ComponentForm extends Component {
     }
 
     handleSubmit(values) {
-        const date = new Date().toISOString();
         this.toggleModal();
-        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment, date);
-        alert(JSON.stringify(values));
+        this.props.postComment(this.props.dishId, values.rating, values.comment);
     }
 
     render() {
@@ -136,10 +134,10 @@ function RenderComments({comments, postComment, dishId}) {
     const comment = comments.map(comment => {
         return(
             <Fade in>
-                <li key={comment.id}>
+                <li key={comment._id}>
                     <p>{comment.comment}</p>
-                    <p>--{comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', 
-                    day: '2-digit'}).format(new Date(comment.date))}</p>
+                    <p>--{comment.author.firstName} {comment.author.lastName}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', 
+                    day: '2-digit'}).format(new Date(comment.createdAt))}</p>
                 </li>
             </Fade>
         );
@@ -199,7 +197,7 @@ const DishDetail = (props) => {
                     </div>
                     <RenderComments comments={props.comments} 
                      postComment={props.postComment}
-                     dishId={props.dish.id} />
+                     dishId={props.dish._id} />
                 </div>
             </div>
         );

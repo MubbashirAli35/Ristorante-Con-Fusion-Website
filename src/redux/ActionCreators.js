@@ -44,24 +44,23 @@ export const postFeedback = (feedback) => (dispatch) => {
                          alert('Your form could not be submitted right now\n: ' + error.message)});
 }
 
-export const postComment = (dishId, rating, author, comment, date) => (dispatch) => {
+export const postComment = (dishId, rating, comment) => (dispatch) => {
+    
     const newComment = ({
-        dishId: dishId, 
+        dish: dishId,
         rating: rating,
-        author: author,
         comment: comment,
-        date: date
     });
 
-    //newComment.date = new Date().toISOString;
+    const bearer = 'Bearer ' + localStorage.getItem('token');
 
     return fetch(baseUrl + 'comments', {
         method: "POST", 
         body: JSON.stringify(newComment),
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': bearer
         }, 
-        credentials: 'same-origin'
     }) 
         .then(response => {
             if(response.ok) {

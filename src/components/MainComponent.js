@@ -23,7 +23,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  postComment: (dishId, rating, author, comment, date) => dispatch(postComment(dishId, rating, author, comment, date)), 
+  postComment: (dishId, rating, comment) => dispatch(postComment(dishId, rating, comment)), 
   fetchDishes: () => {dispatch(fetchDishes())},
   fetchComments: () => {dispatch(fetchComments())},
   fetchPromos: () => {dispatch(fetchPromos())},
@@ -63,7 +63,7 @@ class Main extends Component {
         <DishDetail dish={this.props.dishes.dishes.filter((dish) => dish._id === match.params.dishId)[0]}
           dishesLoading={this.props.dishes.isLoading}
           dishesErrMess={this.props.dishes.errMess}
-          comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))}
+          comments={this.props.comments.comments.filter((comment) => comment.dish === match.params.dishId)}
           commentsErrMess={this.props.comments.errMess}
           postComment={this.props.postComment} 
         />
