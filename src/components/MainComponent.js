@@ -8,7 +8,7 @@ import About from './AboutComponent';
 import {Switch, Route, Redirect, withRouter} from 'react-router-dom'; 
 import DishDetail from './DishDetailComponent';
 import { connect } from 'react-redux';
-import { postComment, fetchDishes, fetchComments, fetchPromos, fetchLeaders, postFeedback } from '../redux/ActionCreators';
+import { postComment, fetchDishes, fetchComments, fetchPromos, fetchLeaders, postFeedback, loginUser, logoutUser } from '../redux/ActionCreators';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { actions } from 'react-redux-form';
 
@@ -17,7 +17,8 @@ const mapStateToProps = state => {
     dishes: state.dishes,
     comments: state.comments,
     promotions: state.promotions,
-    leaders: state.leaders
+    leaders: state.leaders,
+    auth: state.auth
   }
 }
 
@@ -28,13 +29,12 @@ const mapDispatchToProps = (dispatch) => ({
   fetchPromos: () => {dispatch(fetchPromos())},
   fetchLeaders: () => {dispatch(fetchLeaders())},
   postFeedback: (feedback) => dispatch(postFeedback(feedback)),
-  resetFeedbackForm: () => {dispatch(actions.reset('feedback'))}
+  resetFeedbackForm: () => {dispatch(actions.reset('feedback'))},
+  loginUser: (creds) => {dispatch(loginUser(creds))},
+  logoutUser: () => {dispatch(logoutUser())}
 });
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     this.props.fetchDishes();
@@ -60,7 +60,7 @@ class Main extends Component {
     
     const DishWithId = ({match}) => {
       return(
-        <DishDetail dish={this.props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))[0]}
+        <DishDetail dish={this.props.dishes.dishes.filter((dish) => dish._id === match.params.dishId)[0]}
           dishesLoading={this.props.dishes.isLoading}
           dishesErrMess={this.props.dishes.errMess}
           comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))}
@@ -72,7 +72,9 @@ class Main extends Component {
 
     return (
       <div className="App">
-        <Header />
+        <Header auth={this.props.auth}
+          loginUser={this.props.loginUser}
+          logoutUser={this.props.logoutUser} />
         <TransitionGroup>
           <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
             <Switch>

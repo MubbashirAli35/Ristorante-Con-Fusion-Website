@@ -181,6 +181,8 @@ const DishDetail = (props) => {
     }
 
     else if(props.dish != null) {
+
+        console.log('Hello World!');
         return(
             <div className="container">
                 <div className="row">
@@ -202,8 +204,11 @@ const DishDetail = (props) => {
             </div>
         );
     } else {
+        console.log('Hello World!');
         return(
-            <div></div>
+            <div>
+
+            </div>
         );
     }
 }
